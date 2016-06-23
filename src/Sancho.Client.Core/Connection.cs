@@ -28,7 +28,7 @@ namespace Sancho.Client.Core
             ApiKey = apiKey;
         }
 
-        public async Task ConnectAsync()
+        public async Task<bool> ConnectAsync()
         {
             try
             {
@@ -57,10 +57,13 @@ namespace Sancho.Client.Core
                 await hubConnection.Start();
 
                 await proxy.Invoke("RegisterDevice", ApiKey, string.Empty);
+
+                return true;
             }
             catch (Exception ex)
             {
                 var msg = ex.ToString();
+                return false;
             }
         }
 
