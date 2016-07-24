@@ -9,7 +9,7 @@ namespace Sancho.Client.Core
 {
     public class Connection : IConnection
     {
-        public static string ProtocolUrl { get; } = "http://sanchoprotocol-dev.azurewebsites.net/";
+        public static string ProtocolUrl { get; set; }
 
         public string ApiKey { get; }
         public string DeviceId { get; private set; }
