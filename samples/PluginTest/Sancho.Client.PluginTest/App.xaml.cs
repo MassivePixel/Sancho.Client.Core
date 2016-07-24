@@ -8,7 +8,7 @@ namespace Sancho.Client.PluginTest
         {
             InitializeComponent();
 
-            MainPage = new Sancho.Client.PluginTestPage();
+            MainPage = new PluginTestPage();
         }
 
         protected override void OnStart()

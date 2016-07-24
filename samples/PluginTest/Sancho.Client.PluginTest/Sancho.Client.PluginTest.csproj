@@ -33,14 +33,14 @@
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="App.xaml" />
-    <EmbeddedResource Include="Sancho.Client.PluginTestPage.xaml" />
+    <EmbeddedResource Include="PluginTestPage.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Sancho.Client.PluginTestPage.xaml.cs">
-      <DependentUpon>Sancho.Client.PluginTestPage.xaml</DependentUpon>
+    <Compile Include="PluginTestPage.xaml.cs">
+      <DependentUpon>PluginTestPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
