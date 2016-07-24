@@ -1,13 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
 	<key>CFBundleDisplayName</key>
-	<string>Sancho.Client.Test</string>
+	<string>Sancho.Client.PluginTest</string>
 	<key>CFBundleName</key>
-	<string>Sancho.Client.Test</string>
+	<string>Sancho.Client.PluginTest</string>
 	<key>CFBundleIdentifier</key>
-	<string>co.massivepixel.sancho-client-test</string>
+	<string>co.massivepixel.sancho-client-plugintest</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
@@ -44,3 +44,4 @@
 	<string>Assets.xcassets/AppIcons.appiconset</string>
 </dict>
 </plist>
+
