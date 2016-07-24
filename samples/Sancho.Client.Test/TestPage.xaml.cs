@@ -6,10 +6,12 @@ namespace Sancho.Client.Test
     public partial class TestPage : ContentPage
     {
         Connection connection;
-        
+
         public TestPage()
         {
             InitializeComponent();
+
+            Connection.ProtocolUrl = "http://sanchoprotocol-dev.azurewebsites.net/";
             connection = new Connection("00000000-0000-0000-0000-000000000000");
         }
 
@@ -30,4 +32,3 @@ namespace Sancho.Client.Test
         }
     }
 }
-
