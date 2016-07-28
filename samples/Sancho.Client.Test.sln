@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sancho.Client.PluginTest.iO
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sancho.Client.PluginTest.Droid", "PluginTest\Droid\Sancho.Client.PluginTest.Droid.csproj", "{F7237497-9718-4834-9533-D6BEC2E3129F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleConnectionTest", "ConsoleConnectionTest\ConsoleConnectionTest.csproj", "{ACEBCCA0-41AB-455F-A64B-4A93BAC53B9F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -115,6 +117,18 @@ Global
 		{F7237497-9718-4834-9533-D6BEC2E3129F}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{F7237497-9718-4834-9533-D6BEC2E3129F}.Debug|iPhone.ActiveCfg = Debug|Any CPU
 		{F7237497-9718-4834-9533-D6BEC2E3129F}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{ACEBCCA0-41AB-455F-A64B-4A93BAC53B9F}.Debug|Any CPU.ActiveCfg = Debug|iPhone
+		{ACEBCCA0-41AB-455F-A64B-4A93BAC53B9F}.Debug|Any CPU.Build.0 = Debug|iPhone
+		{ACEBCCA0-41AB-455F-A64B-4A93BAC53B9F}.Release|Any CPU.ActiveCfg = Release|iPhone
+		{ACEBCCA0-41AB-455F-A64B-4A93BAC53B9F}.Release|Any CPU.Build.0 = Release|iPhone
+		{ACEBCCA0-41AB-455F-A64B-4A93BAC53B9F}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhone
+		{ACEBCCA0-41AB-455F-A64B-4A93BAC53B9F}.Debug|iPhoneSimulator.Build.0 = Debug|iPhone
+		{ACEBCCA0-41AB-455F-A64B-4A93BAC53B9F}.Release|iPhone.ActiveCfg = Release|iPhone
+		{ACEBCCA0-41AB-455F-A64B-4A93BAC53B9F}.Release|iPhone.Build.0 = Release|iPhone
+		{ACEBCCA0-41AB-455F-A64B-4A93BAC53B9F}.Release|iPhoneSimulator.ActiveCfg = Release|iPhone
+		{ACEBCCA0-41AB-455F-A64B-4A93BAC53B9F}.Release|iPhoneSimulator.Build.0 = Release|iPhone
+		{ACEBCCA0-41AB-455F-A64B-4A93BAC53B9F}.Debug|iPhone.ActiveCfg = Debug|iPhone
+		{ACEBCCA0-41AB-455F-A64B-4A93BAC53B9F}.Debug|iPhone.Build.0 = Debug|iPhone
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{794BCFE5-A0CD-4311-8AD7-DC1FA0F06C05} = {F76720E5-2F3F-4B94-A44D-F7C295B2D5CB}
@@ -124,5 +138,6 @@ Global
 		{BBDA8DA2-8265-4688-9CF9-5AF03B7597D9} = {13439E50-5107-4BFB-A242-8BA7F81763E2}
 		{C7B688A3-718F-448D-B9B8-D92B1A07FA1D} = {13439E50-5107-4BFB-A242-8BA7F81763E2}
 		{F7237497-9718-4834-9533-D6BEC2E3129F} = {13439E50-5107-4BFB-A242-8BA7F81763E2}
+		{ACEBCCA0-41AB-455F-A64B-4A93BAC53B9F} = {881BB67D-9385-4F8B-8D31-980F205F569F}
 	EndGlobalSection
 EndGlobal
