@@ -17,6 +17,8 @@ namespace Sancho.Client.Core
         public string ApiKey { get; }
         public string DeviceId { get; }
 
+        public HubConnection HubConnection => hubConnection;
+
         HubConnection hubConnection;
         List<IPlugin> plugins = new List<IPlugin>();
         IHubProxy proxy;
