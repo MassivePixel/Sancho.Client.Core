@@ -5,7 +5,7 @@
     only:
       - master
 
-  version: 0.1.{build}
+  version: 0.2.0
   assembly_info:
     patch: true
     file: '**\AssemblyInfo.*'
@@ -27,7 +27,7 @@
     parallel: true
     project: src/Sancho.Client.Core/Sancho.Client.Core.csproj
     verbosity: minimal
-    
+
   after_build:
     - ps: nuget pack src/Sancho.Client.Core/Sancho.Client.Core.csproj -Version $env:APPVEYOR_BUILD_VERSION
   artifacts:
@@ -62,7 +62,7 @@
     parallel: true
     project: src/Sancho.Client.Core/Sancho.Client.Core.csproj
     verbosity: minimal
-    
+
   after_build:
     - ps: nuget pack src/Sancho.Client.Core/Sancho.Client.Core.csproj -Version $env:APPVEYOR_BUILD_VERSION
   artifacts:
