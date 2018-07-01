@@ -2,6 +2,16 @@
 
 namespace Sancho.Client.Core
 {
+    public class MessageMetadata
+    {
+        public string pluginId { get; set; }
+        public string origin { get; set; }
+        public string senderId { get; set; }
+    }
+
+    /// <summary>
+    /// Represents a message exchanged between server/client parts of a plugin.
+    /// </summary>
     public class Message
     {
         public string command { get; set; }

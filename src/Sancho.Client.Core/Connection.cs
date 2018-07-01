@@ -5,33 +5,53 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNet.SignalR.Client;
+using Microsoft.AspNetCore.SignalR.Client;
 using Sancho.Client.Core.Helpers;
+using Serilog;
 
 namespace Sancho.Client.Core
 {
+    /// <summary>
+    /// Connection to the Sancho server.
+    /// </summary>
     public class Connection : IConnection
     {
+        /// <summary>
+        /// Underlying SignalR connection.
+        /// </summary>
+        private HubConnection connection;
+
+        /// <summary>
+        /// List of registered plugins available for server.
+        /// Used for dispatching incoming messages.
+        /// </summary>
+        private readonly List<IPlugin> plugins = new List<IPlugin>();
+
+        /// <summary>
+        /// All messages are queued before sending.
+        /// </summary>
+        private readonly Queue<Message> pending = new Queue<Message>();
+
+        /// <summary>
+        /// Gets or sets the protocol URL.
+        /// </summary>
+        /// <value>The protocol URL.</value>
         public static string ProtocolUrl { get; set; }
 
-        public string ApiKey { get; }
+        /// <summary>
+        /// Gets the device identifier.
+        /// </summary>
+        /// <value>The device identifier.</value>
         public string DeviceId { get; }
 
-        public HubConnection HubConnection => hubConnection;
+        /// <summary>
+        /// Gets the hub connection.
+        /// </summary>
+        /// <value>The hub connection.</value>
+        protected HubConnection HubConnection => connection;
 
-        HubConnection hubConnection;
-        List<IPlugin> plugins = new List<IPlugin>();
-        IHubProxy proxy;
-
-        Queue<Message> pending = new Queue<Message>();
-
-        public Connection(string apiKey)
+        public Connection()
         {
-            if (string.IsNullOrEmpty(apiKey))
-                throw new ArgumentNullException(nameof(apiKey));
-
-            ApiKey = apiKey;
-
             DeviceId = Settings.DeviceId;
             if (string.IsNullOrWhiteSpace(DeviceId))
             {
@@ -43,20 +63,23 @@ namespace Sancho.Client.Core
         {
             try
             {
-                hubConnection = new HubConnection(ProtocolUrl);
-                hubConnection.Headers.Add("ApiKey", ApiKey);
-                hubConnection.Headers.Add("Id", DeviceId);
-                hubConnection.Headers.Add("Type", "client");
+                connection = new HubConnectionBuilder()
+                    .WithUrl("http://localhost:5000/protocol")
+                    .Build();
 
-                proxy = hubConnection.CreateHubProxy("Protocol");
-
-                proxy.On<Message>("Receive", m =>
+                connection.On<Message>("receive", m =>
                 {
                     var plugin = plugins.FirstOrDefault(x => x.Name == m?.metadata?.pluginId);
                     plugin?.Recieve(m);
+                    if (plugin == null)
+                    {
+                        Log.Warning("No plugin matching {PluginId}", m?.metadata?.pluginId);
+                    }
                 });
 
-                await hubConnection.Start();
+                Log.Debug("Connecting to Sancho protocol...");
+                await connection.StartAsync();
+                Log.Debug("Connected!");
 
                 return true;
             }
@@ -66,19 +89,34 @@ namespace Sancho.Client.Core
 #if DEBUG
                 Debug.WriteLine(msg);
 #endif
+                Log.Error(ex, "Error connecting!");
                 return false;
             }
         }
 
-        public void Disconnect()
+        public Task DisconnectAsync()
         {
-            hubConnection?.Stop();
+            Log.Debug("Disconnecting.");
+            return connection?.StopAsync();
         }
 
-        public IDisposable On<T>(string eventName, Action<T> onData) => proxy.On(eventName, onData);
-        public Task Invoke(string method, params object[] args) => proxy.Invoke(method, args);
-        public Task<T> Invoke<T>(string method, params object[] args) => proxy.Invoke<T>(method, args);
+        public IDisposable On<T>(string eventName, Action<T> onData)
+            => connection.On(eventName, onData);
+        public IDisposable On<T1, T2>(string eventName, Action<T1, T2> onData)
+            => connection.On(eventName, onData);
+        public Task Invoke(string method, params object[] args)
+            => connection.InvokeAsync(method, args);
+        public Task<T> Invoke<T>(string method, params object[] args)
+            => connection.InvokeAsync<T>(method, args);
 
+        /// <summary>
+        /// Send standard message from plugin to its corresponding server part.
+        /// </summary>
+        /// <returns>The async.</returns>
+        /// <param name="pluginId">Plugin identifier.</param>
+        /// <param name="command">Command.</param>
+        /// <param name="data">Data.</param>
+        /// <param name="prevMessageId">Previous message identifier.</param>
         public Task SendAsync(string pluginId, string command, object data = null, string prevMessageId = null)
             => DoSend(new Message
             {
@@ -91,23 +129,6 @@ namespace Sancho.Client.Core
                     origin = "client"
                 }
             });
-
-        Task DoSend(Message message)
-        {
-            if (message == null)
-            {
-                Debug.WriteLine("Warning: Sending null message");
-                return Task.FromResult(false);
-            }
-
-            if (proxy == null)
-            {
-                pending.Enqueue(message);
-                return Task.FromResult(false);
-            }
-
-            return proxy.Invoke("Send", message);
-        }
 
         public void AddPlugin(IPlugin plugin)
         {
@@ -135,6 +156,25 @@ namespace Sancho.Client.Core
 
             Debug.WriteLine($"Plugin '{name}' removed.");
             plugins.RemoveAll(x => x.Name == name);
+        }
+
+        private Task DoSend(Message message)
+        {
+            if (message == null)
+            {
+                Log.Warning("Warning: Sending null message");
+                return Task.FromResult(false);
+            }
+
+            if (connection == null)
+            {
+                Log.Debug("Not connected, adding to queue {Count}", pending.Count);
+                pending.Enqueue(message);
+                return Task.FromResult(false);
+            }
+
+            Log.Debug("Sending message");
+            return connection.InvokeAsync("Send", message);
         }
     }
 }
