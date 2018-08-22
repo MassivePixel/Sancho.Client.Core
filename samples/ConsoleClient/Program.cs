@@ -4,16 +4,6 @@ using Serilog;
 
 namespace ConsoleClient
 {
-    class TestPlugin : IPlugin
-    {
-        public string Name => "test";
-
-        public void Recieve(Message message)
-        {
-            Log.Information($"Received message {message.command} {message.data} from {message.metadata.senderId}");
-        }
-    }
-
     class Program
     {
         static void Main(string[] args)
@@ -30,7 +20,9 @@ namespace ConsoleClient
         static async void MainAsync()
         {
             var conn = new Connection();
-            conn.AddPlugin(new TestPlugin());
+            conn.AddPlugin(new EchoPlugin(conn));
+            conn.AddPlugin(new TestAsyncCommandPlugin(conn));
+            conn.AddPlugin(new JintPlugin(conn));
 
             if (await conn.ConnectAsync())
             {

@@ -126,7 +126,8 @@ namespace Sancho.Client.Core
                 {
                     pluginId = pluginId,
                     senderId = DeviceId,
-                    origin = "client"
+                    origin = "client",
+                    messageId = prevMessageId
                 }
             });
 
