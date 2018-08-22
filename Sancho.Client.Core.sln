@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sancho.Client.Core", "src\Sancho.Client.Core\Sancho.Client.Core.csproj", "{794BCFE5-A0CD-4311-8AD7-DC1FA0F06C05}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleClient", "samples\ConsoleClient\ConsoleClient.csproj", "{338C9594-92D2-4A59-A6CA-FB153EE496CF}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,9 +13,5 @@ Global
 		{794BCFE5-A0CD-4311-8AD7-DC1FA0F06C05}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{794BCFE5-A0CD-4311-8AD7-DC1FA0F06C05}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{794BCFE5-A0CD-4311-8AD7-DC1FA0F06C05}.Release|Any CPU.Build.0 = Release|Any CPU
-		{338C9594-92D2-4A59-A6CA-FB153EE496CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{338C9594-92D2-4A59-A6CA-FB153EE496CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{338C9594-92D2-4A59-A6CA-FB153EE496CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{338C9594-92D2-4A59-A6CA-FB153EE496CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
