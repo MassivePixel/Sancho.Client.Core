@@ -31,7 +31,7 @@ namespace ConsoleClient
                 //    Log.Information($"Received! {message.command}");
                 //});
 
-                await conn.SendAsync("test", "hi", "from console");
+                await conn.SendAsync("echo", "hi", "from console");
             }
             else
             {
