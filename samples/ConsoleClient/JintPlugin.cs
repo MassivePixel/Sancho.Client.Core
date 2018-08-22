@@ -11,8 +11,6 @@ namespace ConsoleClient
 
     public class JintPlugin : IPlugin
     {
-
-
         private readonly Connection _connection;
         private readonly Engine _engine;
 
