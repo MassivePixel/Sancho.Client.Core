@@ -59,16 +59,23 @@ namespace Sancho.Client.Core
             }
         }
 
-        public async Task<bool> ConnectAsync()
+        public async Task<bool> ConnectAsync(string overrideUrl)
         {
             try
             {
+                var url = (overrideUrl ?? "http://localhost:5000")+"/protocol";
                 connection = new HubConnectionBuilder()
-                    .WithUrl("http://localhost:5000/protocol")
+                    .WithUrl(url)
                     .Build();
 
                 connection.On<Message>("receive", m =>
                 {
+                    if (m.metadata?.origin != "server")
+                    {
+                        // drop all non-server messages
+                        return;
+                    }
+
                     var plugin = plugins.FirstOrDefault(x => x.Name == m?.metadata?.pluginId);
                     plugin?.Recieve(m);
                     if (plugin == null)
