@@ -59,20 +59,46 @@ namespace Sancho.Client.Core
             }
         }
 
-        public async Task<bool> ConnectAsync(string overrideUrl)
+        public async Task<bool> ConnectAsync(
+            string overrideUrl = null,
+            string info = null)
         {
             try
             {
-                var url = (overrideUrl ?? "http://localhost:5000")+"/protocol";
+                var url = (overrideUrl ?? "http://localhost:5000") + "/protocol";
                 connection = new HubConnectionBuilder()
-                    .WithUrl(url)
+                    .WithUrl(url, c =>
+                    {
+                        c.Headers["ClientType"] = "client";
+                        if (!string.IsNullOrWhiteSpace(info))
+                            c.Headers["ClientInfo"] = info;
+                    })
                     .Build();
 
-                connection.On<Message>("receive", m =>
+                connection.On<Message>("receive", async m =>
                 {
                     if (m.metadata?.origin != "server")
                     {
                         // drop all non-server messages
+                        if (m.metadata?.origin == "sancho")
+                        {
+                            switch (m.command)
+                            {
+                                case "sancho:connected":
+                                    Log.Debug("New server connected, refreshing...");
+                                    await DoSend(new Message
+                                    {
+                                        command = "sancho:refresh",
+                                        data = null,
+                                        metadata = new MessageMetadata
+                                        {
+                                            pluginId = "sancho",
+                                            origin = "client"
+                                        }
+                                    });
+                                    break;
+                            }
+                        }
                         return;
                     }
 

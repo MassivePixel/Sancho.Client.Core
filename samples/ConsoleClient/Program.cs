@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Sancho.Client.Core;
 using Serilog;
 
@@ -6,34 +7,28 @@ namespace ConsoleClient
 {
     class Program
     {
-        static void Main(string[] args)
+        static Connection conn;
+
+        static async Task Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
                 .WriteTo.Console()
                 .CreateLogger();
 
-            MainAsync();
+            await MainAsync();
             Console.ReadKey();
+            await conn?.DisconnectAsync();
         }
 
-        static async void MainAsync()
+        static async Task MainAsync()
         {
-            var conn = new Connection();
+            conn = new Connection();
             conn.AddPlugin(new EchoPlugin(conn));
             conn.AddPlugin(new TestAsyncCommandPlugin(conn));
             conn.AddPlugin(new JintPlugin(conn));
 
-            if (await conn.ConnectAsync())
-            {
-                //conn.On<Message>("receive", (message) =>
-                //{
-                //    Log.Information($"Received! {message.command}");
-                //});
-
-                await conn.SendAsync("echo", "hi", "from console");
-            }
-            else
+            if (!await conn.ConnectAsync(info: "console"))
             {
                 Log.Error("Failed to connect!");
             }
